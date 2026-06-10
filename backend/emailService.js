@@ -106,7 +106,7 @@ export async function sendOrderConfirmationEmail(email, nome, pedido) {
           
           <div style="margin-top: 30px; padding: 15px; background: #e8f0e6; border-radius: 8px; text-align: center;">
             <p style="margin: 0;">Você pode acompanhar o status do seu pedido em:</p>
-            <a href="" style="background-color: #6b8c5c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; display: inline-block; margin-top: 10px;">
+            <a href="https://juliana-scarabelli-arte-e-croche.vercel.app" style="background-color: #6b8c5c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; display: inline-block; margin-top: 10px;">
               📦 Meus Pedidos
             </a>
           </div>

@@ -3,31 +3,18 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ShoppingBag, Star } from 'lucide-react'
 import { useCart } from '../contexts/CartContext'
-import { useLanguage } from '../contexts/LanguageContext'
 import { toast } from 'sonner'
 
 function ProductCard({ product }) {
   const { addItem } = useCart()
-  const { t, language } = useLanguage()
-
-  // Traduções para o card
-  const getText = (key) => {
-    const texts = {
-      ultimasPecas: { PT: 'Últimas', EN: 'Last' },
-      emPromocao: { PT: 'PROMOÇÃO', EN: 'SALE' },
-      adicionar: { PT: 'Adicionar ao Carrinho', EN: 'Add to Cart' }
-    }
-    return texts[key]?.[language] || texts[key]?.PT || key
-  }
 
   const handleAddToCart = (e) => {
     e.preventDefault()
     e.stopPropagation()
     addItem(product, 1)
-    toast.success(`${product.nome} ${language === 'PT' ? 'adicionado ao carrinho!' : 'added to cart!'}`)
+    toast.success(`${product.nome} adicionado ao carrinho!`)
   }
 
-  // Renderizar estrelas (rating de 0 a 5)
   const renderStars = () => {
     const rating = product.rating || 0
     const fullStars = Math.floor(rating)
@@ -56,7 +43,6 @@ function ProductCard({ product }) {
       transition={{ duration: 0.4 }}
     >
       <Link to={`/produto/${product.id}`} className="produto-link">
-        {/* Imagem */}
         <div className="produto-imagem-container">
           <div className="produto-imagem">
             {product.imagem && (product.imagem.startsWith('http') || product.imagem.includes('supabase')) ? (
@@ -70,26 +56,17 @@ function ProductCard({ product }) {
               <span className="card-emoji">{product.imagem || '🧶'}</span>
             )}
           </div>
-          
-          {/* Badge de promoção */}
           {product.em_promocao && (
-            <span className="promo-badge">{getText('emPromocao')}</span>
+            <span className="promo-badge">PROMOÇÃO</span>
           )}
         </div>
 
-        {/* Informações do produto */}
         <div className="produto-info">
-          {/* Categoria */}
           <span className="produto-categoria">{product.categoria?.toUpperCase()}</span>
-          
-          {/* Nome */}
           <h3 className="produto-nome">{product.nome}</h3>
-          
-          {/* Avaliação */}
           {renderStars()}
           
-          {/* Preço */}
-          <div className="produto-preco">
+          <div className="produto-preco-wrapper">
             {product.em_promocao && product.preco_original ? (
               <>
                 <span className="preco-original">
@@ -104,21 +81,19 @@ function ProductCard({ product }) {
                 R$ {product.preco.toFixed(2).replace('.', ',')}
               </span>
             )}
+            
+            {product.estoque > 0 && product.estoque <= 3 && (
+              <span className="estoque-baixo-badge">
+                Últimas {product.estoque} peças
+              </span>
+            )}
           </div>
-          
-          {/* Estoque baixo */}
-          {product.estoque <= 3 && product.estoque > 0 && (
-            <p className="estoque-baixo">
-              {getText('ultimasPecas')} {product.estoque} peças!
-            </p>
-          )}
         </div>
       </Link>
       
-      {/* Botão de adicionar ao carrinho */}
       <button className="add-to-cart-btn-card" onClick={handleAddToCart}>
         <ShoppingBag size={14} />
-        {getText('adicionar')}
+        Adicionar
       </button>
     </motion.div>
   )

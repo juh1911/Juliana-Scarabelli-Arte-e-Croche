@@ -1,0 +1,604 @@
+/* src/styles/Produto.css */
+.produto-page {
+  min-height: 100vh;
+  background: #FAF8F5;
+  padding: 2rem 1.5rem;
+}
+
+body.dark .produto-page {
+  background: #1a1a2e;
+}
+
+.produto-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Botão Voltar */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #6b8c5c;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  color: #5a7a4a;
+  transform: translateX(-4px);
+}
+
+/* Grid Principal */
+.produto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+body.dark .produto-grid {
+  background: #16213e;
+}
+
+/* Imagem do Produto */
+.produto-imagem {
+  position: relative;
+  background: linear-gradient(135deg, #e8f0e6, #d4e8cf);
+  border-radius: 1rem;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.imagem-real {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.imagem-emoji {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+}
+
+.promo-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: #e74c3c;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: bold;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  z-index: 10;
+}
+
+/* Informações do Produto */
+.produto-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.produto-categoria {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6b8c5c;
+}
+
+.produto-nome {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #2d4a2c;
+  margin: 0;
+}
+
+body.dark .produto-nome {
+  color: #7da36a;
+}
+
+/* Avaliação com Estrelas */
+.produto-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.stars {
+  display: flex;
+  gap: 0.125rem;
+}
+
+.star-filled {
+  color: #f5a623;
+  fill: #f5a623;
+}
+
+.star-empty {
+  color: #e8dfd3;
+}
+
+.produto-rating span {
+  font-size: 0.75rem;
+  color: #8b6f4e;
+}
+
+/* Preço */
+.produto-preco {
+  margin: 0.5rem 0;
+}
+
+.preco-original {
+  font-size: 0.875rem;
+  text-decoration: line-through;
+  color: #8b6f4e;
+  margin-right: 0.75rem;
+}
+
+.preco-atual {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #2d4a2c;
+}
+
+.preco-atual.promo {
+  color: #e74c3c;
+}
+
+/* Descrição */
+.produto-descricao {
+  color: #4a5568;
+  line-height: 1.6;
+  font-size: 0.875rem;
+}
+
+body.dark .produto-descricao {
+  color: #b9a88c;
+}
+
+/* Estoque Baixo */
+.estoque-baixo {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: rgba(231, 76, 60, 0.1);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+/* Quantidade */
+.produto-quantidade {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.produto-quantidade label {
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+.quantidade-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f5efe6;
+  border-radius: 9999px;
+  padding: 0.25rem;
+}
+
+body.dark .quantidade-control {
+  background: #0f1117;
+}
+
+.quantidade-control button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  border: none;
+  background: white;
+  cursor: pointer;
+  font-size: 1.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+body.dark .quantidade-control button {
+  background: #2a2a4a;
+  color: white;
+}
+
+.quantidade-control button:hover {
+  background: #6b8c5c;
+  color: white;
+}
+
+.quantidade-control span {
+  min-width: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Botão Adicionar ao Carrinho */
+.add-to-cart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #6b8c5c;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.add-to-cart-btn:hover {
+  background: #5a7a4a;
+  transform: translateY(-2px);
+}
+
+/* Seção de Avaliações */
+.avaliacoes-section {
+  margin-top: 3rem;
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+body.dark .avaliacoes-section {
+  background: #16213e;
+}
+
+.avaliacoes-section h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #2d4a2c;
+  margin-bottom: 1rem;
+}
+
+.avaliacao-card {
+  border-bottom: 1px solid #e8dfd3;
+  padding: 1rem 0;
+}
+
+.avaliacao-card:last-child {
+  border-bottom: none;
+}
+
+.avaliacao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.avaliacao-header strong {
+  color: #2d4a2c;
+  font-size: 0.875rem;
+}
+
+.avaliacao-stars {
+  display: flex;
+  gap: 0.125rem;
+}
+
+.avaliacao-card p {
+  font-size: 0.875rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+body.dark .avaliacao-card p {
+  color: #b9a88c;
+}
+
+/* Loading */
+.produto-loading {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #e8dfd3;
+  border-top-color: #6b8c5c;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Produto não encontrado */
+.produto-notfound {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.produto-notfound h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  color: #2d4a2c;
+}
+
+.produto-notfound button {
+  background: #6b8c5c;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.produto-notfound button:hover {
+  background: #5a7a4a;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .produto-page {
+    padding: 1rem;
+  }
+  
+  .produto-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .produto-nome {
+    font-size: 1.5rem;
+  }
+  
+  .preco-atual {
+    font-size: 1.5rem;
+  }
+  
+  .imagem-emoji {
+    font-size: 4rem;
+  }
+  
+  .avaliacao-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .produto-quantidade {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .produto-nome {
+    font-size: 1.25rem;
+  }
+  
+  .preco-atual {
+    font-size: 1.25rem;
+  }
+  
+  .quantidade-control button {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  
+  .add-to-cart-btn {
+    padding: 0.75rem;
+  }
+  /* Seção de Avaliações */
+.avaliacoes-section {
+  margin-top: 3rem;
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+body.dark .avaliacoes-section {
+  background: #16213e;
+}
+
+.avaliacoes-section h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  color: #2d4a2c;
+  margin-bottom: 1rem;
+}
+
+.sem-avaliacoes {
+  color: #8b6f4e;
+  text-align: center;
+  padding: 1rem;
+}
+
+.avaliacoes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.avaliacao-card {
+  border-bottom: 1px solid #e8dfd3;
+  padding: 1rem 0;
+}
+
+.avaliacao-card:last-child {
+  border-bottom: none;
+}
+
+.avaliacao-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.avaliacao-header strong {
+  color: #2d4a2c;
+  font-size: 0.875rem;
+}
+
+.avaliacao-data {
+  font-size: 0.7rem;
+  color: #8b6f4e;
+}
+
+.avaliacao-comentario {
+  font-size: 0.875rem;
+  color: #4a5568;
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+
+/* Formulário de avaliação */
+.avaliacao-form {
+  background: #f5efe6;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+body.dark .avaliacao-form {
+  background: #0f1117;
+}
+
+.avaliacao-form h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1rem;
+  color: #2d4a2c;
+  margin-bottom: 1rem;
+}
+
+.form-rating {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-rating span {
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+.avaliacao-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e8dfd3;
+  border-radius: 0.5rem;
+  background: white;
+  font-size: 0.875rem;
+  color: #4a3728;
+  resize: vertical;
+  margin-bottom: 1rem;
+}
+
+body.dark .avaliacao-textarea {
+  background: #1a1a2e;
+  border-color: #2a2a4a;
+  color: #e8dfd3;
+}
+
+.avaliacao-textarea:focus {
+  outline: none;
+  border-color: #6b8c5c;
+}
+
+.enviar-avaliacao-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #6b8c5c;
+  color: white;
+  border: none;
+  padding: 0.625rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.enviar-avaliacao-btn:hover {
+  background: #5a7a4a;
+  transform: translateY(-2px);
+}
+
+.enviar-avaliacao-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.avaliacao-mensagem {
+  text-align: center;
+  padding: 1rem;
+  color: #8b6f4e;
+  font-size: 0.875rem;
+}
+
+.avaliacao-mensagem.sucesso {
+  color: #059669;
+  background: rgba(5, 150, 105, 0.1);
+  border-radius: 0.5rem;
+}
+
+.login-link-avaliacao {
+  background: none;
+  border: none;
+  color: #6b8c5c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.login-link-avaliacao:hover {
+  color: #5a7a4a;
+}
+}

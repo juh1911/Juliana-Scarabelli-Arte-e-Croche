@@ -1,0 +1,135 @@
+/* src/styles/Sobre.css */
+.sobre-page {
+  min-height: 100vh;
+  background: #FAF8F5;
+  padding: 4rem 1.5rem;
+}
+
+body.dark .sobre-page {
+  background: #1a1a2e;
+}
+
+.sobre-container {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.sobre-content {
+  width: 100%;
+}
+
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+/* Imagem */
+.sobre-imagem-wrapper {
+  width: 100%;
+}
+
+.sobre-imagem {
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e8f0e6, #d4e8cf);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.sobre-imagem-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.sobre-imagem:hover .sobre-imagem-img {
+  transform: scale(1.03);
+}
+
+/* Texto */
+.sobre-titulo {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: #2d4a2c;
+  margin-bottom: 1.5rem;
+}
+
+body.dark .sobre-titulo {
+  color: #7da36a;
+}
+
+.sobre-paragrafos {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.sobre-paragrafo {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #4a5568;
+}
+
+body.dark .sobre-paragrafo {
+  color: #b9a88c;
+}
+
+.sobre-paragrafo strong {
+  color: #2d4a2c;
+  font-weight: 600;
+}
+
+.sobre-citacao {
+  font-style: italic;
+  color: #6b8c5c;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 2px solid #e8dfd3;
+}
+
+body.dark .sobre-citacao {
+  color: #7da36a;
+  border-top-color: #2a2a4a;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .sobre-page {
+    padding: 2rem 1rem;
+  }
+  
+  .sobre-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .sobre-titulo {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .sobre-paragrafo {
+    font-size: 0.85rem;
+  }
+  
+  .sobre-citacao {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .sobre-titulo {
+    font-size: 1.75rem;
+  }
+  
+  .sobre-paragrafo {
+    font-size: 0.8rem;
+  }
+}

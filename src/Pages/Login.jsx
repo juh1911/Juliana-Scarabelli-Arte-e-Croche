@@ -4,11 +4,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff } from 'lucide-react'
 import { supabase } from '../services/supabase'
+import { useAuth } from '../contexts/Authcontext'
 import { toast, Toaster } from 'sonner'
 import '../styles/Login.css'
 
 function Login() {
   const navigate = useNavigate()
+  const { login } = useAuth()  // ← PEGA A FUNÇÃO DO CONTEXT
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [loading, setLoading] = useState(false)
@@ -44,13 +46,13 @@ function Login() {
         return
       }
 
-      // Login bem-sucedido
+      // 🔥 USAR A FUNÇÃO login DO CONTEXT
       const { senha: _, ...userWithoutPassword } = user
-      localStorage.setItem('jsc_current_user', JSON.stringify(userWithoutPassword))
+      login(userWithoutPassword)
 
-      toast.success(`Bem-vinda, ${user.nome}!`)
       setLoading(false)
 
+      // Redirecionar
       if (user.role === 'admin') {
         navigate('/admin')
       } else {
@@ -75,14 +77,13 @@ function Login() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Ícone com emoji 🧶 */}
-       <div className="login-icon">
-  <img src="/favicon.ico" alt="Logo" style={{ width: '95px', margin: '0 auto' }} />
-</div>
+          <div className="login-icon">
+            <span style={{ fontSize: '32px' }}>🧶</span>
+          </div>
 
           <h1 className="login-title">Entrar</h1>
           <p className="login-subtitle">
-          Entre na sua conta para acessar a loja
+            Bem-vinda de volta à Juliana Scarabelli Crochê
           </p>
 
           <form onSubmit={handleSubmit} className="login-form">

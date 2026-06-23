@@ -12,7 +12,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // Carregar usuário do localStorage ao iniciar
   useEffect(() => {
     const storedUser = localStorage.getItem('jsc_current_user')
     if (storedUser) {

@@ -28,3 +28,17 @@ export async function sendResetPasswordEmail(email, nome, token) {
     throw error;
   }
 }
+
+export async function sendOrderConfirmationEmail(email, nome, pedido) {
+  try {
+    const response = await fetch(`${API_URL}/api/send-order-confirmation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, nome, pedido })
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('Erro ao enviar e-mail de confirmação:', error);
+    throw error;
+  }
+}

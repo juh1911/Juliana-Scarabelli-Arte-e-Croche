@@ -1,14 +1,17 @@
 // src/services/emailService.js
+import axios from 'axios';
+
+// 🔥 USE A URL DO SEU BACKEND NA VERCEL
 const API_URL = 'https://juliana-scarabelli-arte-e-croche.vercel.app/__/backend';
 
 export async function sendConfirmationEmail(email, nome, token) {
   try {
-    const response = await fetch(`${API_URL}/api/send-confirmation-email`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, nome, token })
+    const response = await axios.post(`${API_URL}/api/send-confirmation-email`, {
+      email,
+      nome,
+      token
     });
-    return await response.json();
+    return response.data;
   } catch (error) {
     console.error('Erro ao enviar e-mail:', error);
     throw error;
@@ -17,28 +20,14 @@ export async function sendConfirmationEmail(email, nome, token) {
 
 export async function sendResetPasswordEmail(email, nome, token) {
   try {
-    const response = await fetch(`${API_URL}/api/send-reset-email`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, nome, token })
+    const response = await axios.post(`${API_URL}/api/send-reset-email`, {
+      email,
+      nome,
+      token
     });
-    return await response.json();
+    return response.data;
   } catch (error) {
     console.error('Erro ao enviar e-mail:', error);
-    throw error;
-  }
-}
-
-export async function sendOrderConfirmationEmail(email, nome, pedido) {
-  try {
-    const response = await fetch(`${API_URL}/api/send-order-confirmation`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, nome, pedido })
-    });
-    return await response.json();
-  } catch (error) {
-    console.error('Erro ao enviar e-mail de confirmação:', error);
     throw error;
   }
 }

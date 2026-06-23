@@ -1,8 +1,6 @@
 // src/services/emailService.js
 import axios from 'axios';
-
-// 🔥 ALTERAR ESTA LINHA para a URL da Vercel
-const API_URL = 'https://juliana-scarabelli-arte-e-croche.vercel.app/__/backend';
+import { API_URL } from '../config';
 
 export async function sendConfirmationEmail(email, nome, token) {
   try {

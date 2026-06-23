@@ -7,6 +7,7 @@ import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/Authcontext'
 import { supabase } from '../services/supabase'
 import { toast, Toaster } from 'sonner'
+import { API_URL } from '../config'
 import '../styles/Checkout.css'
 
 function Checkout() {
@@ -139,7 +140,7 @@ function Checkout() {
 
   const enviarEmailConfirmacao = async (email, nome, numeroPedido, total, itens, paymentMethod) => {
     try {
-      const response = await fetch('https://juliana-scarabelli-arte-e-croche.vercel.app/__/backend/api/send-order-confirmation', {
+      const response = await fetch(`${API_URL}/api/send-order-confirmation`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -290,25 +291,114 @@ function Checkout() {
             <div className="checkout-card">
               <h2 className="card-label">DADOS DE ENTREGA</h2>
               <div className="form-grid">
-                <input type="text" name="nome" placeholder="Nome completo *" value={formData.nome} onChange={handleInputChange} required className="form-input" />
-                <input type="email" name="email" placeholder="E-mail *" value={formData.email} onChange={handleInputChange} required className="form-input" />
-                <input type="tel" name="telefone" placeholder="Telefone *" value={formData.telefone} onChange={handleInputChange} required className="form-input" />
+                <input 
+                  type="text" 
+                  name="nome" 
+                  placeholder="Nome completo *" 
+                  value={formData.nome} 
+                  onChange={handleInputChange} 
+                  required 
+                  className="form-input" 
+                />
+                
+                <input 
+                  type="email" 
+                  name="email" 
+                  placeholder="E-mail *" 
+                  value={formData.email} 
+                  onChange={handleInputChange} 
+                  required 
+                  className="form-input" 
+                />
+                
+                <input 
+                  type="tel" 
+                  name="telefone" 
+                  placeholder="Telefone *" 
+                  value={formData.telefone} 
+                  onChange={handleInputChange} 
+                  required 
+                  className="form-input" 
+                />
                 
                 <div className="form-field">
                   <div className="cep-wrapper">
-                    <input type="text" name="cep" placeholder="CEP *" value={formData.cep} onChange={handleCepChange} className="form-input" />
-                    <button type="button" className="buscar-cep-btn" onClick={buscarCep} disabled={buscandoCep}>
+                    <input 
+                      type="text" 
+                      name="cep" 
+                      placeholder="CEP *" 
+                      value={formData.cep} 
+                      onChange={handleCepChange} 
+                      className="form-input" 
+                    />
+                    <button 
+                      type="button" 
+                      className="buscar-cep-btn" 
+                      onClick={buscarCep} 
+                      disabled={buscandoCep}
+                    >
                       {buscandoCep ? '...' : <Search size={16} />}
                     </button>
                   </div>
                 </div>
                 
-                <input type="text" name="endereco" placeholder="Endereço *" value={formData.endereco} onChange={handleInputChange} required className="form-input" />
-                <input type="text" name="numero" placeholder="Número *" value={formData.numero} onChange={handleInputChange} required className="form-input" />
-                <input type="text" name="complemento" placeholder="Complemento" value={formData.complemento} onChange={handleInputChange} className="form-input" />
-                <input type="text" name="bairro" placeholder="Bairro" value={formData.bairro} onChange={handleInputChange} className="form-input" />
-                <input type="text" name="cidade" placeholder="Cidade *" value={formData.cidade} onChange={handleInputChange} required className="form-input" />
-                <input type="text" name="estado" placeholder="Estado *" value={formData.estado} onChange={handleInputChange} required className="form-input" />
+                <input 
+                  type="text" 
+                  name="endereco" 
+                  placeholder="Endereço *" 
+                  value={formData.endereco} 
+                  onChange={handleInputChange} 
+                  required 
+                  className="form-input" 
+                />
+                
+                <input 
+                  type="text" 
+                  name="numero" 
+                  placeholder="Número *" 
+                  value={formData.numero} 
+                  onChange={handleInputChange} 
+                  required 
+                  className="form-input" 
+                />
+                
+                <input 
+                  type="text" 
+                  name="complemento" 
+                  placeholder="Complemento" 
+                  value={formData.complemento} 
+                  onChange={handleInputChange} 
+                  className="form-input" 
+                />
+                
+                <input 
+                  type="text" 
+                  name="bairro" 
+                  placeholder="Bairro" 
+                  value={formData.bairro} 
+                  onChange={handleInputChange} 
+                  className="form-input" 
+                />
+                
+                <input 
+                  type="text" 
+                  name="cidade" 
+                  placeholder="Cidade *" 
+                  value={formData.cidade} 
+                  onChange={handleInputChange} 
+                  required 
+                  className="form-input" 
+                />
+                
+                <input 
+                  type="text" 
+                  name="estado" 
+                  placeholder="Estado *" 
+                  value={formData.estado} 
+                  onChange={handleInputChange} 
+                  required 
+                  className="form-input" 
+                />
               </div>
             </div>
 
@@ -318,9 +408,20 @@ function Checkout() {
               <div className="cupom-section">
                 <div className="cupom-input-wrapper">
                   <Tag size={16} className="cupom-icon" />
-                  <input type="text" placeholder="Código do cupom" value={codigoCupom} onChange={(e) => setCodigoCupom(e.target.value)} className="cupom-input" />
+                  <input 
+                    type="text" 
+                    placeholder="Código do cupom" 
+                    value={codigoCupom} 
+                    onChange={(e) => setCodigoCupom(e.target.value)} 
+                    className="cupom-input" 
+                  />
                 </div>
-                <button type="button" onClick={handleApplyCupom} className="cupom-btn" disabled={!!cupom}>
+                <button 
+                  type="button" 
+                  onClick={handleApplyCupom} 
+                  className="cupom-btn" 
+                  disabled={!!cupom}
+                >
                   Aplicar
                 </button>
               </div>
@@ -338,13 +439,25 @@ function Checkout() {
             <div className="checkout-card">
               <h2 className="card-label">FORMA DE PAGAMENTO</h2>
               <div className="payment-methods">
-                <button type="button" className={`payment-btn ${paymentMethod === 'pix' ? 'active' : ''}`} onClick={() => setPaymentMethod('pix')}>
+                <button 
+                  type="button" 
+                  className={`payment-btn ${paymentMethod === 'pix' ? 'active' : ''}`} 
+                  onClick={() => setPaymentMethod('pix')}
+                >
                   <QrCode size={20} /> PIX
                 </button>
-                <button type="button" className={`payment-btn ${paymentMethod === 'cartao' ? 'active' : ''}`} onClick={() => setPaymentMethod('cartao')}>
+                <button 
+                  type="button" 
+                  className={`payment-btn ${paymentMethod === 'cartao' ? 'active' : ''}`} 
+                  onClick={() => setPaymentMethod('cartao')}
+                >
                   <CreditCard size={20} /> Cartão
                 </button>
-                <button type="button" className={`payment-btn ${paymentMethod === 'boleto' ? 'active' : ''}`} onClick={() => setPaymentMethod('boleto')}>
+                <button 
+                  type="button" 
+                  className={`payment-btn ${paymentMethod === 'boleto' ? 'active' : ''}`} 
+                  onClick={() => setPaymentMethod('boleto')}
+                >
                   <FileText size={20} /> Boleto
                 </button>
               </div>
@@ -362,12 +475,27 @@ function Checkout() {
                 </div>
               ))}
               <div className="resumo-divider"></div>
-              <div className="resumo-linha"><span>Subtotal</span><span>R$ {subtotal.toFixed(2)}</span></div>
-              {desconto > 0 && <div className="resumo-linha desconto"><span>Desconto ({cupom})</span><span>- R$ {desconto.toFixed(2)}</span></div>}
-              <div className="resumo-total"><span>Total</span><span>R$ {total.toFixed(2)}</span></div>
+              <div className="resumo-linha">
+                <span>Subtotal</span>
+                <span>R$ {subtotal.toFixed(2)}</span>
+              </div>
+              {desconto > 0 && (
+                <div className="resumo-linha desconto">
+                  <span>Desconto ({cupom})</span>
+                  <span>- R$ {desconto.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="resumo-total">
+                <span>Total</span>
+                <span>R$ {total.toFixed(2)}</span>
+              </div>
             </div>
 
-            <button type="submit" className="confirmar-btn" disabled={processing}>
+            <button 
+              type="submit" 
+              className="confirmar-btn" 
+              disabled={processing}
+            >
               {processing ? 'Processando...' : `Confirmar pedido — R$ ${total.toFixed(2)}`}
             </button>
           </form>
@@ -377,4 +505,4 @@ function Checkout() {
   )
 }
 
-export default Checkout  // ← ESTA LINHA É OBRIGATÓRIA!
+export default Checkout

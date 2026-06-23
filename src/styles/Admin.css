@@ -4,6 +4,25 @@
   background: #FAF8F5;
   padding: 2rem 1.5rem;
 }
+/* src/styles/Admin.css - parte da tabela */
+.admin-table th {
+  text-align: left;
+  padding: 1rem;
+  background: #f5efe6;
+  font-weight: 600;
+  color: #2d4a2c;
+  border-bottom: 1px solid #e8dfd3;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e8dfd3;
+  color: #4a3728;
+  vertical-align: middle;
+}
 
 body.dark .admin-page {
   background: #1a1a2e;

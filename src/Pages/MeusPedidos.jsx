@@ -1,11 +1,10 @@
 // src/Pages/MeusPedidos.jsx
 import { useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Package, ShoppingBag, X, Trash2, Clock, Truck, Check } from 'lucide-react'
+import { Package, Clock, Truck, Check, X } from 'lucide-react'
 import { supabase } from '../services/supabase'
 import { useAuth } from '../contexts/Authcontext'
-import OrderTracking from '../components/OrderTracking'
 import '../styles/MeusPedidos.css'
 
 function MeusPedidos() {
@@ -13,7 +12,7 @@ function MeusPedidos() {
   const { user } = useAuth()
   const [pedidos, setPedidos] = useState([])
   const [carregando, setCarregando] = useState(true)
-  const [acaoId, setAcaoId] = useState(null)
+  const [cancelandoId, setCancelandoId] = useState(null)
 
   useEffect(() => {
     if (!user) {
@@ -45,7 +44,7 @@ function MeusPedidos() {
   const cancelarPedido = async (pedidoId) => {
     if (!window.confirm('Tem certeza que deseja cancelar este pedido?')) return
     
-    setAcaoId(pedidoId)
+    setCancelandoId(pedidoId)
     
     const { error } = await supabase
       .from('pedidos')
@@ -59,27 +58,20 @@ function MeusPedidos() {
       alert('Pedido cancelado com sucesso!')
     }
     
-    setAcaoId(null)
+    setCancelandoId(null)
   }
 
-  const excluirPedido = async (pedidoId) => {
-    if (!window.confirm('Tem certeza que deseja excluir este pedido permanentemente?')) return
-    
-    setAcaoId(pedidoId)
-    
-    const { error } = await supabase
-      .from('pedidos')
-      .delete()
-      .eq('id', pedidoId)
-
-    if (error) {
-      alert('Erro ao excluir pedido')
-    } else {
-      setPedidos(pedidos.filter(p => p.id !== pedidoId))
-      alert('Pedido excluído com sucesso!')
+  const getStatusInfo = (status) => {
+    switch(status) {
+      case 'preparando':
+        return { label: 'Preparando', icon: Package, color: '#f5a623' }
+      case 'caminho':
+        return { label: 'A caminho', icon: Truck, color: '#2563eb' }
+      case 'entregue':
+        return { label: 'Entregue', icon: Check, color: '#059669' }
+      default:
+        return { label: status, icon: Clock, color: '#8b6f4e' }
     }
-    
-    setAcaoId(null)
   }
 
   const formatarData = (dateString) => {
@@ -90,32 +82,15 @@ function MeusPedidos() {
     })
   }
 
-  const formatarMoeda = (valor) => {
-    return `R$ ${valor.toFixed(2).replace('.', ',')}`
-  }
-
-  const getStatusBadge = (status) => {
-    switch(status) {
-      case 'preparando':
-        return { label: 'Preparando', variant: 'outline', icon: Clock }
-      case 'caminho':
-        return { label: 'A caminho', variant: 'secondary', icon: Truck }
-      case 'entregue':
-        return { label: 'Entregue', variant: 'default', icon: Check }
-      default:
-        return { label: status, variant: 'default', icon: Package }
-    }
-  }
-
   if (!user) return null
 
   return (
     <div className="meus-pedidos-page">
       <div className="meus-pedidos-container">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.5 }}
         >
           <h1 className="meus-pedidos-title">Meus Pedidos</h1>
           <p className="meus-pedidos-subtitle">
@@ -130,82 +105,77 @@ function MeusPedidos() {
           ) : pedidos.length === 0 ? (
             <div className="empty-state">
               <Package size={48} className="empty-icon" />
-              <h3>Você ainda não fez nenhum pedido.</h3>
-              <p>Que tal começar comprando algo especial?</p>
-              <Link to="/loja" className="empty-btn">
-                <ShoppingBag size={16} />
+              <h3>Nenhum pedido encontrado</h3>
+              <p>Você ainda não realizou nenhuma compra.</p>
+              <button onClick={() => navigate('/loja')} className="empty-btn">
                 Começar a comprar
-              </Link>
+              </button>
             </div>
           ) : (
             <div className="pedidos-list">
               {pedidos.map((pedido) => {
-                const statusInfo = getStatusBadge(pedido.status)
-                const StatusIcon = statusInfo.icon
-                
+                const StatusIcon = getStatusInfo(pedido.status).icon
                 return (
                   <div key={pedido.id} className="pedido-card">
-                    {/* Cabeçalho */}
                     <div className="pedido-header">
-                      <div className="pedido-id">
-                        <Package size={18} />
-                        <span>Pedido #{pedido.id.toString().slice(-6)}</span>
-                      </div>
-                      <div className="pedido-info-header">
+                      <div className="pedido-info">
+                        <span className="pedido-numero">#{pedido.id}</span>
                         <span className="pedido-data">{formatarData(pedido.created_at)}</span>
-                        <span className={`status-badge status-${pedido.status}`}>
-                          <StatusIcon size={12} />
-                          {statusInfo.label}
-                        </span>
+                      </div>
+                      <div className="pedido-status" style={{ color: getStatusInfo(pedido.status).color }}>
+                        <StatusIcon size={16} />
+                        <span>{getStatusInfo(pedido.status).label}</span>
                       </div>
                     </div>
 
-                    {/* Itens */}
                     <div className="pedido-itens">
                       {pedido.itens?.map((item, index) => (
                         <div key={index} className="pedido-item">
-                          <span className="item-descricao">
-                            {item.quantidade} × {item.nome}
-                          </span>
-                          <span className="item-subtotal">
-                            {formatarMoeda(item.preco * item.quantidade)}
+                          <span className="item-nome">{item.nome}</span>
+                          <span className="item-qtd">x{item.quantidade}</span>
+                          <span className="item-preco">
+                            R$ {(item.preco * item.quantidade).toFixed(2)}
                           </span>
                         </div>
                       ))}
                     </div>
 
-                    {/* Total */}
-                    <div className="pedido-total">
-                      <span>Total</span>
-                      <strong>{formatarMoeda(pedido.total)}</strong>
-                    </div>
+                    {/* ⚠️ MENSAGEM "AGUARDE CONTATO" PARA PEDIDOS EM PREPARAÇÃO */}
+                    {pedido.status === 'preparando' && (
+                      <div className="pedido-aguarde">
+                        <div className="aguarde-mensagem">
+                          <span className="aguarde-icone">📞</span>
+                          <div>
+                            <p className="aguarde-titulo">Aguarde nossa equipe entrar em contato!</p>
+                            <p className="aguarde-texto">
+                              Entraremos em contato pelo telefone <strong>{pedido.usuario_telefone || 'cadastrado'}</strong> 
+                              para confirmar o pagamento e alinhar os detalhes da sua entrega.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
-                    {/* OrderTracking - Rastreamento visual */}
-                    <div className="tracking-wrapper">
-                      <OrderTracking currentStatus={pedido.status} />
-                    </div>
-
-                    {/* Ações */}
-                    <div className="pedido-actions">
+                    <div className="pedido-footer">
+                      <div className="pedido-total">
+                        <span>Total</span>
+                        <strong>R$ {pedido.total?.toFixed(2)}</strong>
+                      </div>
+                      
                       {pedido.status === 'preparando' && (
                         <button 
-                          className="action-btn cancelar"
+                          className="cancelar-btn"
                           onClick={() => cancelarPedido(pedido.id)}
-                          disabled={acaoId === pedido.id}
+                          disabled={cancelandoId === pedido.id}
                         >
-                          <X size={14} />
-                          {acaoId === pedido.id ? 'Cancelando...' : 'Cancelar pedido'}
-                        </button>
-                      )}
-                      
-                      {(pedido.status === 'cancelado' || pedido.status === 'entregue') && (
-                        <button 
-                          className="action-btn excluir"
-                          onClick={() => excluirPedido(pedido.id)}
-                          disabled={acaoId === pedido.id}
-                        >
-                          <Trash2 size={14} />
-                          {acaoId === pedido.id ? 'Excluindo...' : 'Excluir'}
+                          {cancelandoId === pedido.id ? (
+                            <>Cancelando...</>
+                          ) : (
+                            <>
+                              <X size={14} />
+                              Cancelar pedido
+                            </>
+                          )}
                         </button>
                       )}
                     </div>

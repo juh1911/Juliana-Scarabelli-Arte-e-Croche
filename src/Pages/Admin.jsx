@@ -14,17 +14,12 @@ function Admin() {
   const navigate = useNavigate()
   const { user } = useAuth()
   
-  // Estados
   const [produtos, setProdutos] = useState([])
   const [pedidos, setPedidos] = useState([])
   const [clientes, setClientes] = useState([])
   const [loading, setLoading] = useState(true)
   const [buscaProduto, setBuscaProduto] = useState('')
   const [categoriaFiltro, setCategoriaFiltro] = useState('')
-  const [produtoEditando, setProdutoEditando] = useState(null)
-  const [showModal, setShowModal] = useState(false)
-
-  // Estatísticas
   const [stats, setStats] = useState({
     totalProdutos: 0,
     pedidosPendentes: 0,
@@ -32,7 +27,8 @@ function Admin() {
     totalClientes: 0
   })
 
-  // Carregar dados
+  const categorias = ['Todos', 'Decoração', 'Chaveiros', 'Bolsas', 'Vestuário']
+
   useEffect(() => {
     carregarDados()
   }, [])
@@ -40,11 +36,9 @@ function Admin() {
   const carregarDados = async () => {
     setLoading(true)
     
-    // Buscar produtos
     const { data: produtosData } = await supabase.from('produtos').select('*')
     setProdutos(produtosData || [])
     
-    // Buscar pedidos (apenas não cancelados)
     const { data: pedidosData } = await supabase
       .from('pedidos')
       .select('*')
@@ -52,14 +46,12 @@ function Admin() {
       .order('created_at', { ascending: false })
     setPedidos(pedidosData || [])
     
-    // Buscar clientes (apenas role = 'user')
     const { data: clientesData } = await supabase
       .from('perfis')
       .select('*')
       .eq('role', 'user')
     setClientes(clientesData || [])
     
-    // Calcular estatísticas
     const totalProdutos = produtosData?.length || 0
     const pedidosPendentes = pedidosData?.filter(p => p.status === 'preparando').length || 0
     const totalVendas = pedidosData?.reduce((sum, p) => sum + (p.total || 0), 0) || 0
@@ -69,20 +61,18 @@ function Admin() {
     setLoading(false)
   }
 
-  // Excluir produto
   const handleDeleteProduto = async (id, nome) => {
     if (window.confirm(`Tem certeza que deseja excluir "${nome}"?`)) {
       const { error } = await supabase.from('produtos').delete().eq('id', id)
       if (error) {
         toast.error('Erro ao excluir produto')
       } else {
-        toast.success('Produto excluído com sucesso!')
+        toast.success('Produto excluído!')
         carregarDados()
       }
     }
   }
 
-  // Atualizar status do pedido
   const handleStatusChange = async (pedidoId, novoStatus) => {
     const { error } = await supabase
       .from('pedidos')
@@ -97,16 +87,15 @@ function Admin() {
     }
   }
 
-  // Cancelar pedido
   const handleCancelarPedido = async (pedidoId) => {
-    if (window.confirm('Tem certeza que deseja cancelar este pedido?')) {
+    if (window.confirm('Cancelar este pedido?')) {
       const { error } = await supabase
         .from('pedidos')
         .update({ status: 'cancelado' })
         .eq('id', pedidoId)
       
       if (error) {
-        toast.error('Erro ao cancelar pedido')
+        toast.error('Erro ao cancelar')
       } else {
         toast.success('Pedido cancelado!')
         carregarDados()
@@ -114,25 +103,19 @@ function Admin() {
     }
   }
 
-  // Verificar se a imagem é uma URL válida
-  const temImagem = (imagem) => {
-    return imagem && (imagem.startsWith('http') || imagem.includes('supabase.co/storage'))
-  }
-
-  // Filtrar produtos
   const produtosFiltrados = produtos.filter(produto => {
     const matchBusca = produto.nome.toLowerCase().includes(buscaProduto.toLowerCase())
     const matchCategoria = !categoriaFiltro || produto.categoria === categoriaFiltro
     return matchBusca && matchCategoria
   })
 
-  // ✅ CATEGORIAS ATUALIZADAS - ALTERADO AQUI!
-  const categorias = ['Todos', 'Decoração', 'Chaveiros', 'Bolsas', 'Vestuário']
-
-  // Formatar data
   const formatarData = (dateString) => {
     if (!dateString) return '-'
     return new Date(dateString).toLocaleDateString('pt-BR')
+  }
+
+  const temImagem = (imagem) => {
+    return imagem && (imagem.startsWith('http') || imagem.includes('supabase.co/storage'))
   }
 
   if (loading) {
@@ -255,11 +238,7 @@ function Admin() {
                     <td>
                       <div className="product-thumb">
                         {temImagem(produto.imagem) ? (
-                          <img 
-                            src={produto.imagem} 
-                            alt={produto.nome} 
-                            className="product-thumb-img"
-                          />
+                          <img src={produto.imagem} alt={produto.nome} className="product-thumb-img" />
                         ) : (
                           <span className="product-thumb-emoji">🧶</span>
                         )}
@@ -300,7 +279,7 @@ function Admin() {
           </div>
         </div>
 
-        {/* Seção: Pedidos Recentes */}
+        {/* Seção: Pedidos Recentes - COM TELEFONE */}
         <div className="admin-section">
           <h2 className="section-title">Pedidos Recentes</h2>
           
@@ -310,6 +289,7 @@ function Admin() {
                 <tr>
                   <th>ID</th>
                   <th>Cliente</th>
+                  <th>Telefone</th>
                   <th>Data</th>
                   <th>Total</th>
                   <th>Status</th>
@@ -321,6 +301,7 @@ function Admin() {
                   <tr key={pedido.id}>
                     <td>#{pedido.id}</td>
                     <td>{pedido.usuario_nome}</td>
+                    <td>{pedido.usuario_telefone || 'Não informado'}</td>
                     <td>{formatarData(pedido.created_at)}</td>
                     <td>R$ {(pedido.total || 0).toFixed(2)}</td>
                     <td>

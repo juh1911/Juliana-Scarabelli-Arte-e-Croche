@@ -4,7 +4,7 @@ import { Resend } from 'resend';
 const resend = new Resend('re_89obpUuy_AuUKDaeVg4dmy7ZUWZfJx5jt');
 
 export async function sendConfirmationEmail(email, nome, token) {
-  const confirmLink = `http://localhost:5173/confirmar-email/${token}`;
+  const confirmLink = `https://juliana-scarabelli-arte-e-croche.vercel.app/confirmar-email/${token}`;
   
   const { data, error } = await resend.emails.send({
     from: 'onboarding@resend.dev',
@@ -29,7 +29,7 @@ export async function sendConfirmationEmail(email, nome, token) {
 }
 
 export async function sendResetPasswordEmail(email, nome, token) {
-  const resetLink = `http://localhost:5173/resetar-senha/${token}`;
+  const resetLink = `https://juliana-scarabelli-arte-e-croche.vercel.app/resetar-senha/${token}`;
   
   const { data, error } = await resend.emails.send({
     from: 'onboarding@resend.dev',
@@ -78,7 +78,7 @@ export async function sendOrderConfirmationEmail(email, nome, pedido) {
           <p>Olá <strong>${nome}</strong>,</p>
           <p>Seu pedido foi realizado com sucesso!</p>
           
-          <!-- ⚠️ MENSAGEM SOBRE PAGAMENTO - NOVIDADE! -->
+          <!-- ⚠️ MENSAGEM DE CONTATO PARA PAGAMENTO -->
           <div style="background: #fff3e0; border-left: 4px solid #e74c3c; padding: 15px; margin: 20px 0; border-radius: 8px;">
             <p style="margin: 0; color: #e74c3c; font-weight: bold;">📞 ATENÇÃO!</p>
             <p style="margin: 5px 0 0 0; color: #333;">
@@ -86,7 +86,7 @@ export async function sendOrderConfirmationEmail(email, nome, pedido) {
               para confirmar o pagamento e alinhar os detalhes da sua entrega.
             </p>
           </div>
-          <!-- ============================================= -->
+          <!-- ============================================ -->
           
           <div style="background: #f5efe6; padding: 15px; border-radius: 8px; margin: 20px 0;">
             <p><strong>📦 Número do pedido:</strong> ${numero_pedido}</p>
@@ -116,7 +116,7 @@ export async function sendOrderConfirmationEmail(email, nome, pedido) {
           
           <div style="margin-top: 30px; padding: 15px; background: #e8f0e6; border-radius: 8px; text-align: center;">
             <p style="margin: 0;">Você pode acompanhar o status do seu pedido em:</p>
-            <a href="https://juliana-scarabelli-arte-e-croche.vercel.app/__/backend" style="background-color: #6b8c5c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; display: inline-block; margin-top: 10px;">
+            <a href="https://juliana-scarabelli-arte-e-croche.vercel.app/meus-pedidos" style="background-color: #6b8c5c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; display: inline-block; margin-top: 10px;">
               📦 Meus Pedidos
             </a>
           </div>
